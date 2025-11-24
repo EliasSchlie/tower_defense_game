@@ -9,6 +9,7 @@ class Grid {
 public:
     Grid();
     void display() const;
+    void setCell(int row, int col, Cell type);
     
 private:
     Cell cells[GRID_SIZE][GRID_SIZE];
