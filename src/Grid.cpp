@@ -16,6 +16,7 @@ Cell Grid::getCell(int row, int col) const {
 }
 
 void Grid::display() const {
+    std::cout << "\033[2J\033[H";  // Clears screen! (so that we don't spam the terminal)
     for (int r = 0; r < GRID_SIZE; r++) {
         for (int c = 0; c < GRID_SIZE; c++) {
             switch (cells[r][c]) {
