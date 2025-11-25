@@ -10,8 +10,9 @@ class AI {
 public:
     AI();
     bool shouldSpawn() const;
-    Enemy spawnEnemy(Grid& grid, std::vector<Tower>& towers);
+    Enemy spawnEnemy(Grid& grid);
     void nextWave(int playerScore);
+    void findBestSpawnColumns(Grid& grid, std::vector<Tower>& towers);
     bool allWavesComplete() const;
     int getWave() const;
     int getEnemiesSpawnedThisWave() const;
@@ -21,7 +22,8 @@ private:
     int wave;
     int enemiesSpawnedThisWave;
     int enemyHealth;
-    int getSpawnColumn(Grid& grid, std::vector<Tower>& towers);
+    std::vector<int> bestSpawnColumns;
+    int getSpawnColumn(Grid& grid);
 };
 
 #endif

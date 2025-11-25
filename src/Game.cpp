@@ -13,6 +13,7 @@ Game::Game() {
 
 void Game::run() {
     placeTowers();
+    ai.findBestSpawnColumns(grid, towers);
     
     while (!gameOver()) {
         turn++;
@@ -74,7 +75,7 @@ void Game::placeTowers() {
 
 void Game::spawnEnemy() {
     if (!ai.shouldSpawn()) return;
-    enemies.push_back(ai.spawnEnemy(grid, towers));
+    enemies.push_back(ai.spawnEnemy(grid));
 }
 
 void Game::moveEnemies() {
@@ -130,10 +131,10 @@ void Game::towerAttack() {
 
 void Game::display() {
     grid.display();
-    std::cout << "Wave: " << ai.getWave() << "/5 | Turn: " << turn;
-    std::cout << " | Castle HP: " << castle.getHealth();
+    std::cout << "Wave: " << ai.getWave() << "/5 | Turn: " << turn << "\n";
+    std::cout << "Enemies Destroyed: " << enemiesDestroyed;
     std::cout << " | Score: " << score;
-    std::cout << " | Destroyed: " << enemiesDestroyed << "\n";
+    std::cout << " | Castle Health: " << castle.getHealth() << "\n";
 }
 
 bool Game::waveOver() {
