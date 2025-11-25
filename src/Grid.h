@@ -10,6 +10,7 @@ public:
     Grid();
     void display() const;
     void setCell(int row, int col, Cell type);
+    Cell getCell(int row, int col) const;
     
 private:
     Cell cells[GRID_SIZE][GRID_SIZE];

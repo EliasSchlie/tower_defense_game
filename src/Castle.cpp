@@ -1,7 +1,11 @@
 #include "Castle.h"
 #include "Grid.h"
 
-Castle::Castle() : health(100), row(GRID_SIZE - 1), col(GRID_SIZE / 2) {}
+Castle::Castle() {
+    health = 100;
+    row = GRID_SIZE - 1;
+    col = GRID_SIZE / 2;
+}
 
 void Castle::takeDamage(int amount) {
     health -= amount;
