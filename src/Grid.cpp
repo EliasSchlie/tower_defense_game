@@ -27,10 +27,12 @@ void Grid::display() const {
         std::cout << (r < 10 ? " " : "") << r << " ";
         for (int c = 0; c < GRID_SIZE; c++) {
             switch (cells[r][c]) {
-                case Cell::EMPTY:  std::cout << "▢ "; break;
-                case Cell::CASTLE: std::cout << "🏰"; break;
-                case Cell::TOWER:  std::cout << "🔫"; break;
-                case Cell::ENEMY:  std::cout << "👾"; break;
+                case Cell::EMPTY:    std::cout << "▢ "; break;
+                case Cell::CASTLE:   std::cout << "🏰"; break;
+                case Cell::TOWER:    std::cout << "🔫"; break;
+                case Cell::TOWER_L1: std::cout << "💥"; break;
+                case Cell::TOWER_L2: std::cout << "🌋"; break;
+                case Cell::ENEMY:    std::cout << "👾"; break;
             }
         }
         std::cout << '\n';

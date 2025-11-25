@@ -3,7 +3,7 @@
 
 const int GRID_SIZE = 20;
 
-enum class Cell { EMPTY, CASTLE, TOWER, ENEMY };
+enum class Cell { EMPTY, CASTLE, TOWER, TOWER_L1, TOWER_L2, ENEMY };
 
 class Grid {
 public:

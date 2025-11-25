@@ -102,6 +102,9 @@ void Game::towerAttack() {
     for (int t = 0; t < towers.size(); t++) {
         int tr = towers[t].getRow();
         int tc = towers[t].getCol();
+        int range = towers[t].getRange();
+        int damage = towers[t].getDamage();
+        int oldLevel = towers[t].getLevel();
         
         for (int e = 0; e < enemies.size(); e++) {
             if (enemies[e].isDead()) continue;
@@ -114,12 +117,20 @@ void Game::towerAttack() {
             if (rowDist < 0) rowDist = -rowDist;
             if (colDist < 0) colDist = -colDist;
             
-            if (rowDist <= 2 && colDist <= 2) {
-                enemies[e].takeDamage(1);
+            if (rowDist <= range && colDist <= range) {
+                enemies[e].takeDamage(damage);
                 if (enemies[e].isDead()) {
                     grid.setCell(er, ec, Cell::EMPTY);
                     if (er < GRID_SIZE - 1) {
                         ai.updateColumnWeight(enemies[e].getSpawnCol(), false);
+                        towers[t].addKill();
+                        if (towers[t].getLevel() != oldLevel) {
+                            if (towers[t].getLevel() == 1)
+                                grid.setCell(tr, tc, Cell::TOWER_L1);
+                            else if (towers[t].getLevel() == 2)
+                                grid.setCell(tr, tc, Cell::TOWER_L2);
+                            oldLevel = towers[t].getLevel();
+                        }
                         enemiesDestroyed++;
                         score += 10;
                     }
