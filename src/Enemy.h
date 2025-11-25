@@ -17,6 +17,7 @@ private:
     int row;
     int col;
     int health;
+    int speed;
 };
 
 #endif

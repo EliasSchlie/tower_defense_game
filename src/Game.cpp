@@ -127,7 +127,8 @@ void Game::display() {
     grid.display();
     std::cout << "Wave: " << ai.getWave() << "/5 | Turn: " << turn;
     std::cout << " | Castle HP: " << castle.getHealth();
-    std::cout << " | Score: " << score << "\n";
+    std::cout << " | Score: " << score;
+    std::cout << " | Destroyed: " << enemiesDestroyed << "\n";
 }
 
 bool Game::waveOver() {

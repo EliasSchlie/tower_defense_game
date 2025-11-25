@@ -5,6 +5,7 @@ Enemy::Enemy(int c, int hp) {
     row = 0;
     col = c;
     health = hp;
+    speed = 1;
 }
 
 int Enemy::getRow() const { return row; }
