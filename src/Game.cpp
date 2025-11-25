@@ -33,7 +33,7 @@ void Game::run() {
     }
     
     display();
-    std::cout << "\n=== GAME OVER ===\n";
+    std::cout << "\nGAME OVER\n";
     std::cout << "Player Score: " << score << "\n";
     std::cout << "Enemies Destroyed: " << enemiesDestroyed << "\n";
     std::cout << "Castle Health: " << castle.getHealth() << "\n";
@@ -81,15 +81,18 @@ void Game::moveEnemies() {
     for (int i = 0; i < enemies.size(); i++) {
         if (enemies[i].isDead()) continue;
         
-        enemies[i].move(grid);
-        
-        if (enemies[i].getRow() >= GRID_SIZE - 1) {
-            castle.takeDamage(10);
-            enemies[i].takeDamage(999);
-            int r = enemies[i].getRow();
-            int c = enemies[i].getCol();
-            if (!(r == castle.getRow() && c == castle.getCol()))
-                grid.setCell(r, c, Cell::EMPTY);
+        for (int s = 0; s < enemies[i].getSpeed(); s++) {
+            enemies[i].move(grid);
+            
+            if (enemies[i].getRow() >= GRID_SIZE - 1) {
+                castle.takeDamage(10);
+                enemies[i].takeDamage(999);
+                int r = enemies[i].getRow();
+                int c = enemies[i].getCol();
+                if (!(r == castle.getRow() && c == castle.getCol()))
+                    grid.setCell(r, c, Cell::EMPTY);
+                break;
+            }
         }
     }
 }
@@ -114,8 +117,10 @@ void Game::towerAttack() {
                 enemies[e].takeDamage(1);
                 if (enemies[e].isDead()) {
                     grid.setCell(er, ec, Cell::EMPTY);
-                    enemiesDestroyed++;
-                    score += 10;
+                    if (er < GRID_SIZE - 1) {
+                        enemiesDestroyed++;
+                        score += 10;
+                    }
                 }
                 break;
             }

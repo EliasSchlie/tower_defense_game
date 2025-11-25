@@ -9,6 +9,7 @@ public:
     int getRow() const;
     int getCol() const;
     int getHealth() const;
+    int getSpeed() const;
     void takeDamage(int amount);
     bool isDead() const;
     void move(Grid& grid);

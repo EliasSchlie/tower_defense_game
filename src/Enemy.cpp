@@ -11,6 +11,7 @@ Enemy::Enemy(int c, int hp) {
 int Enemy::getRow() const { return row; }
 int Enemy::getCol() const { return col; }
 int Enemy::getHealth() const { return health; }
+int Enemy::getSpeed() const { return speed; }
 bool Enemy::isDead() const { return health <= 0; }
 
 void Enemy::takeDamage(int amount) {
