@@ -26,6 +26,7 @@ private:
     void placeTowers();
     void spawnEnemy();
     void moveEnemies();
+    void towerAttack();
     void display();
     bool isOver();
 };

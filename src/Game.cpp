@@ -20,6 +20,7 @@ void Game::run() {
         turn++;
         spawnEnemy();
         moveEnemies();
+        towerAttack();
         display();
         std::cout << "Press Enter...";
         std::cin.get();
@@ -89,6 +90,35 @@ void Game::moveEnemies() {
             int c = enemies[i].getCol();
             if (!(r == castle.getRow() && c == castle.getCol()))
                 grid.setCell(r, c, Cell::EMPTY);
+        }
+    }
+}
+
+void Game::towerAttack() {
+    for (int t = 0; t < towers.size(); t++) {
+        int tr = towers[t].getRow();
+        int tc = towers[t].getCol();
+        
+        for (int e = 0; e < enemies.size(); e++) {
+            if (enemies[e].isDead()) continue;
+            
+            int er = enemies[e].getRow();
+            int ec = enemies[e].getCol();
+            
+            int rowDist = tr - er;
+            int colDist = tc - ec;
+            if (rowDist < 0) rowDist = -rowDist;
+            if (colDist < 0) colDist = -colDist;
+            
+            if (rowDist <= 2 && colDist <= 2) {
+                enemies[e].takeDamage(1);
+                if (enemies[e].isDead()) {
+                    grid.setCell(er, ec, Cell::EMPTY);
+                    enemiesDestroyed++;
+                    score += 10;
+                }
+                break;
+            }
         }
     }
 }
