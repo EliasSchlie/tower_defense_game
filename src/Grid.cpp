@@ -16,7 +16,7 @@ Cell Grid::getCell(int row, int col) const {
 }
 
 void Grid::display() const {
-    std::cout << "\033[2J\033[H"; // Clears screen! (so that we don't spam the terminal)
+    std::cout << "\033[2J\033[3J\033[H"; // Clear screen + scrollback + move to top
     
     std::cout << "   ";
     for (int c = 0; c < GRID_SIZE; c++)
