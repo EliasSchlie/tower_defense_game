@@ -1,7 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-class Grid;  // Forward declaration
+class Grid;
 
 class Enemy {
 public:
