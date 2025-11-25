@@ -8,7 +8,7 @@ void placeTowers(Grid& grid, std::vector<Tower>& towers) {
     while (towers.size() < 5) {
         grid.display();
         std::cout << "Place up to 5 towers. Enter row and column (e.g., 10 5).\n";
-        std::cout << "Rules: Row must be 2-18, cannot place on castle.\n";
+        std::cout << "Rules: Row 2-19, col 0-19, not on occupied cells.\n";
         std::cout << "Enter -1 -1 to finish placing towers.\n";
         std::cout << "\nTower " << towers.size() + 1 << "/5 - Enter row col: ";
         
@@ -17,8 +17,8 @@ void placeTowers(Grid& grid, std::vector<Tower>& towers) {
         
         if (row == -1 && col == -1) break;
         
-        if (row < 2 || row >= GRID_SIZE - 1 || col < 0 || col >= GRID_SIZE) {
-            std::cout << "Invalid! Row must be 2-18, col must be 0-19.\n";
+        if (row < 2 || row >= GRID_SIZE || col < 0 || col >= GRID_SIZE) {
+            std::cout << "Invalid! Row must be 2-19, col must be 0-19.\n";
             continue;
         }
         if (grid.getCell(row, col) != Cell::EMPTY) {
