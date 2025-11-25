@@ -12,7 +12,7 @@ public:
     bool shouldSpawn() const;
     Enemy spawnEnemy(Grid& grid);
     void nextWave(int playerScore);
-    void findBestSpawnColumns(Grid& grid, std::vector<Tower>& towers);
+    void updateColumnWeight(int col, bool reachedCastle);
     bool allWavesComplete() const;
     int getWave() const;
     int getEnemiesSpawnedThisWave() const;
@@ -22,7 +22,7 @@ private:
     int wave;
     int enemiesSpawnedThisWave;
     int enemyHealth;
-    std::vector<int> bestSpawnColumns;
+    int columnWeights[20];
     int getSpawnColumn(Grid& grid);
 };
 

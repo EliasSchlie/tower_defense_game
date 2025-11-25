@@ -8,6 +8,7 @@ public:
     Enemy(int col, int hp = 3);
     int getRow() const;
     int getCol() const;
+    int getSpawnCol() const;
     int getHealth() const;
     int getSpeed() const;
     void takeDamage(int amount);
@@ -17,6 +18,7 @@ public:
 private:
     int row;
     int col;
+    int spawnCol;
     int health;
     int speed;
 };

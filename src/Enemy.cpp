@@ -4,12 +4,14 @@
 Enemy::Enemy(int c, int hp) {
     row = 0;
     col = c;
+    spawnCol = c;
     health = hp;
     speed = 1;
 }
 
 int Enemy::getRow() const { return row; }
 int Enemy::getCol() const { return col; }
+int Enemy::getSpawnCol() const { return spawnCol; }
 int Enemy::getHealth() const { return health; }
 int Enemy::getSpeed() const { return speed; }
 bool Enemy::isDead() const { return health <= 0; }

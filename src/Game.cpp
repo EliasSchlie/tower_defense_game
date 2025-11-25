@@ -13,7 +13,6 @@ Game::Game() {
 
 void Game::run() {
     placeTowers();
-    ai.findBestSpawnColumns(grid, towers);
     
     while (!gameOver()) {
         turn++;
@@ -87,6 +86,7 @@ void Game::moveEnemies() {
             
             if (enemies[i].getRow() >= GRID_SIZE - 1) {
                 castle.takeDamage(10);
+                ai.updateColumnWeight(enemies[i].getSpawnCol(), true);
                 enemies[i].takeDamage(999);
                 int r = enemies[i].getRow();
                 int c = enemies[i].getCol();
@@ -119,6 +119,7 @@ void Game::towerAttack() {
                 if (enemies[e].isDead()) {
                     grid.setCell(er, ec, Cell::EMPTY);
                     if (er < GRID_SIZE - 1) {
+                        ai.updateColumnWeight(enemies[e].getSpawnCol(), false);
                         enemiesDestroyed++;
                         score += 10;
                     }

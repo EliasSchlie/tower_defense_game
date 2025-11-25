@@ -5,58 +5,44 @@ AI::AI() {
     wave = 1;
     enemiesSpawnedThisWave = 0;
     enemyHealth = 3;
+    for (int i = 0; i < GRID_SIZE; i++)
+        columnWeights[i] = 10;
 }
 
 bool AI::shouldSpawn() const {
     return enemiesSpawnedThisWave < 10;
 }
 
-void AI::findBestSpawnColumns(Grid& grid, std::vector<Tower>& towers) {
-    int towerInfluence[GRID_SIZE];
-    for (int i = 0; i < GRID_SIZE; i++)
-        towerInfluence[i] = 0;
-    
-    for (int t = 0; t < towers.size(); t++) {
-        int tc = towers[t].getCol();
-        for (int offset = -2; offset <= 2; offset++) {
-            int col = tc + offset;
-            if (col >= 0 && col < GRID_SIZE)
-                towerInfluence[col]++;
-        }
-    }
-    
-    int minInfluence = 10000;
-    bestSpawnColumns.clear();
-    
-    for (int c = 0; c < GRID_SIZE; c++) {
-        if (towerInfluence[c] < minInfluence) {
-            minInfluence = towerInfluence[c];
-            bestSpawnColumns.clear();
-            bestSpawnColumns.push_back(c);
-        } 
-        else if (towerInfluence[c] == minInfluence) {
-            bestSpawnColumns.push_back(c);
-        }
+void AI::updateColumnWeight(int col, bool reachedCastle) {
+    if (reachedCastle) {
+        columnWeights[col] += 3;
+    } else {
+        columnWeights[col] -= 2;
+        if (columnWeights[col] < 1)
+            columnWeights[col] = 1;
     }
 }
 
 int AI::getSpawnColumn(Grid& grid) {
-    if (bestSpawnColumns.size() > 0) {
-        int startIdx = rand() % bestSpawnColumns.size();
-        for (int i = 0; i < bestSpawnColumns.size(); i++) {
-            int idx = (startIdx + i);
-            if (idx >= bestSpawnColumns.size()) {
-                idx -= bestSpawnColumns.size();
-            }
-            if (grid.getCell(0, bestSpawnColumns[idx]) == Cell::EMPTY)
-                return bestSpawnColumns[idx];
-        }
+    int totalWeight = 0;
+    for (int c = 0; c < GRID_SIZE; c++) {
+        if (grid.getCell(0, c) == Cell::EMPTY)
+            totalWeight += columnWeights[c];
     }
     
-    int startCol = rand() % GRID_SIZE;
-    for (int i = 0; i < GRID_SIZE; i++) {
-        int c = (startCol + i) % GRID_SIZE;
-        if (grid.getCell(0, c) == Cell::EMPTY)
+    if (totalWeight == 0) {
+        for (int c = 0; c < GRID_SIZE; c++)
+            if (grid.getCell(0, c) == Cell::EMPTY)
+                return c;
+        return 0;
+    }
+    
+    int pick = rand() % totalWeight;
+    int cumulative = 0;
+    for (int c = 0; c < GRID_SIZE; c++) {
+        if (grid.getCell(0, c) != Cell::EMPTY) continue;
+        cumulative += columnWeights[c];
+        if (pick < cumulative)
             return c;
     }
     return 0;
