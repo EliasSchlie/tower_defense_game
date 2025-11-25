@@ -1,0 +1,23 @@
+#ifndef ENEMY_H
+#define ENEMY_H
+
+class Grid;  // Forward declaration
+
+class Enemy {
+public:
+    Enemy(int col, int hp = 3);
+    int getRow() const;
+    int getCol() const;
+    int getHealth() const;
+    void takeDamage(int amount);
+    bool isDead() const;
+    void move(Grid& grid);
+
+private:
+    int row;
+    int col;
+    int health;
+};
+
+#endif
+
