@@ -5,25 +5,31 @@
 
 Game::Game() {
     turn = 0;
-    enemiesSpawned = 0;
     enemiesDestroyed = 0;
     score = 0;
-    maxEnemies = 10;
-    srand(time(0));  // Seeds random number generator
+    srand(time(0));
     grid.setCell(castle.getRow(), castle.getCol(), Cell::CASTLE);
 }
 
 void Game::run() {
     placeTowers();
     
-    while (!isOver()) {
+    while (!gameOver()) {
         turn++;
-        spawnEnemy();
         moveEnemies();
+        spawnEnemy();
         towerAttack();
         display();
         std::cout << "Press Enter...";
         std::cin.get();
+        
+        if (waveOver() && ai.getWave() < 5) {
+            ai.nextWave(score);
+            display();
+            std::cout << "Wave " << ai.getWave() << " starting! Enemy HP: " << ai.getEnemyHealth() << "\n";
+            std::cout << "Press Enter...";
+            std::cin.get();
+        }
     }
     
     display();
@@ -67,14 +73,8 @@ void Game::placeTowers() {
 }
 
 void Game::spawnEnemy() {
-    if (enemiesSpawned >= maxEnemies) return;
-    
-    int col = rand() % GRID_SIZE;
-    if (grid.getCell(0, col) == Cell::EMPTY) {
-        enemies.push_back(Enemy(col));
-        grid.setCell(0, col, Cell::ENEMY);
-        enemiesSpawned++;
-    }
+    if (!ai.shouldSpawn()) return;
+    enemies.push_back(ai.spawnEnemy(grid, towers));
 }
 
 void Game::moveEnemies() {
@@ -125,19 +125,20 @@ void Game::towerAttack() {
 
 void Game::display() {
     grid.display();
-    std::cout << "Turn: " << turn << " | Castle HP: " << castle.getHealth();
-    std::cout << " | Score: " << score;
-    std::cout << " | Enemies: " << enemiesSpawned << "/" << maxEnemies << "\n";
+    std::cout << "Wave: " << ai.getWave() << "/5 | Turn: " << turn;
+    std::cout << " | Castle HP: " << castle.getHealth();
+    std::cout << " | Score: " << score << "\n";
 }
 
-bool Game::isOver() {
+bool Game::waveOver() {
+    if (ai.shouldSpawn()) return false;
+    for (int i = 0; i < enemies.size(); i++)
+        if (!enemies[i].isDead()) return false;
+    return true;
+}
+
+bool Game::gameOver() {
     if (castle.getHealth() <= 0) return true;
-    
-    if (enemiesSpawned >= maxEnemies) {
-        for (int i = 0; i < enemies.size(); i++)
-            if (!enemies[i].isDead()) return false;
-        return true;
-    }
+    if (ai.getWave() >= 5 && waveOver()) return true;
     return false;
 }
-

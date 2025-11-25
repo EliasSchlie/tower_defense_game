@@ -5,6 +5,7 @@
 #include "Castle.h"
 #include "Tower.h"
 #include "Enemy.h"
+#include "AI.h"
 #include <vector>
 
 class Game {
@@ -17,18 +18,18 @@ private:
     Castle castle;
     std::vector<Tower> towers;
     std::vector<Enemy> enemies;
+    AI ai;
     int turn;
-    int enemiesSpawned;
     int enemiesDestroyed;
     int score;
-    int maxEnemies;
     
     void placeTowers();
     void spawnEnemy();
     void moveEnemies();
     void towerAttack();
     void display();
-    bool isOver();
+    bool waveOver();
+    bool gameOver();
 };
 
 #endif
