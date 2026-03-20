@@ -1,29 +1,24 @@
-Castle Defender - Fall 2025
-===========================
+# Castle Defender
 
-Name: Elias Schlie
-Student Number: 2111981
+A turn-based terminal tower defense game written in C++. Defend your castle against waves of enemies by placing towers on a 20×20 grid.
 
-How to Compile:
----------------
+## Gameplay
+
+- Place up to 5 towers anywhere on the grid before the game starts
+- Each turn, enemies spawn and advance toward the castle at the bottom
+- Towers automatically attack nearby enemies
+- Survive 5 waves — enemy health scales each wave (managed by an AI controller)
+- Game ends when the castle's health hits zero or all waves are cleared
+
+## Build & Run
+
+```bash
 g++ -std=c++17 src/*.cpp -o CastleDefender
-
-How to Run:
------------
 ./CastleDefender
+```
 
-Files Included:
----------------
-- src/main.cpp
-- src/Game.cpp / Game.h
-- src/Grid.cpp / Grid.h
-- src/Castle.cpp / Castle.h
-- src/Tower.cpp / Tower.h
-- src/Enemy.cpp / Enemy.h
-- src/AI.cpp / AI.h
-- README.md
-- report.md
+Tested on macOS with Apple clang.
 
-Notes:
-------
-Tested on macOS with g++ (Apple clang)
+## Structure
+
+`Game`, `Grid`, `Castle`, `Tower`, `Enemy`, `AI` — each component is its own `.cpp`/`.h` pair in `src/`.
